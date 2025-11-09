@@ -7,6 +7,10 @@ from django.db import IntegrityError
 # 第一步，加载模型
 from . import models
 import datetime
+from faker import Faker
+import random
+
+
 # Create your views here.
 class StudentView(View):
     def get(self, request):
@@ -43,7 +47,6 @@ class StudentView(View):
         # student_list = models.Student.objects.values("id", "name", "age")
         # return JsonResponse(list(student_list), safe=False)
 
-
     def post(self, request):
         # 添加学生数据
 
@@ -67,7 +70,6 @@ class StudentView(View):
         # except IntegrityError:
         #     return HttpResponse(f"添加失败，错误信息：{IntegrityError}")
 
-
         # 模型的.objects.create可以用以创建新对象
         # student = models.Student.objects.create(
         #     name=para["name"],
@@ -85,15 +87,33 @@ class StudentView(View):
         #     "name": student.name,
         #     "age": student.age
         # }
-
-        stu1 = models.Student(name="老大",age=10,sex="M",classmate="201",mobile="12312345678", description="老大",status=1)
-        stu2 = models.Student(name="老二",age=9,sex="F",classmate="301",mobile="12314345678", description="老二",status=2)
-        stu3 = models.Student(name="老三",age=8,sex="F",classmate="401",mobile="12313345678", description="老三",status=0)
-        ret = models.Student.objects.bulk_create([stu1,stu2,stu3])
-        print(ret)
+        #
+        stu1 = models.Student(name="老大", age=10, sex="M", classmate="201", mobile="12312345678", description="老大",
+                              status=1)
+        # stu2 = models.Student(name="老二",age=9,sex="F",classmate="301",mobile="12314345678", description="老二",status=2)
+        # stu3 = models.Student(name="老三",age=8,sex="F",classmate="401",mobile="12313345678", description="老三",status=0)
+        # ret = models.Student.objects.bulk_create([stu1,stu2,stu3])
+        # print(ret)
 
         # print(request.body)
-        return JsonResponse({"succeed!": len(ret)}, status=201, safe=False)
+        # return JsonResponse({"succeed!": len(ret)}, status=201, safe=False)
+        #     使用faker来生成虚拟数据，存储到student表中
+        faker = Faker('zh_CN')
+        for num in range(100):
+            stu1 = models.Student(
+                id=num + 1,
+                name=faker.name(),
+                age=random.randint(6, 12),
+                sex=random.choice(["M", "F"]),
+                classmate=random.choice(["201", "202", "301", "302", "401"]),
+                mobile=str(faker.phone_number()),
+                description=faker.sentence(),
+                status=random.choice([0, 1, 2]))
+            stu1.save()
+            # student = models.Student(
+            #     "name" = faker.name(),
+            # )
+        return JsonResponse({})
 
     def put(self, request):
         # 修改学生数据
