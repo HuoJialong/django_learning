@@ -1,0 +1,3 @@
+insert into 'student'(id, name, sex, class, age, description, created_time, updated_time) values
+(1,'赵华',1,307,22, '对于勤奋的人来说，成功不是偶然，对于懒惰的人来说，失败却是必然', now(), now())
+（2, '程星云', 1, 301,20,'人生应该如铜蜡烛一样，从顶燃到底，一直都是光明的',now(),now()）

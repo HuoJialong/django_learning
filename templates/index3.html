@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table{
+            border-collapse: collapse; /*合并边框*/
+            width: 500px;
+        }
+        td{
+            border: 1px solid coral;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+{% comment %}
+	如果用户是root，则显示欢迎超级员回家，否则显示欢迎！
+{% endcomment %}
+{% if name == "root" %}
+    <p> 欢迎超级管理员</p>
+    {% else %}
+    <p>欢迎！</p>
+{% endif %}
+<table>
+    <tr>
+        <td>序号</td>
+        <td>id</td>
+        <td>name</td>
+        <td>price</td>
+    </tr>
+    {%  for book in book_list %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ book.id }}</td>
+            <td>{{ book.name }}</td>
+            <td>{{ book.price }}</td>
+        </tr>
+        {% if forloop.first %}
+            <tr style="background: greenyellow">
+        {% else %}
+            <tr>
+        {% endif %}
+    {% endfor %}
+</table>
+</body>
+</html>

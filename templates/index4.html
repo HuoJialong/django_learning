@@ -1,0 +1,20 @@
+{% load my_filter %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1> {{ title }}</h1>
+<p> 作者：{{ author|default:"佚名" }}</p>
+<p> {{ content | safe}}</p>
+<p>{{ content | length }}</p>
+<p>{{ now | date:"D d M Y "}}</p>
+<p> {{ filesize | filesizeformat }}</p>
+<p>{{ title | join:"-" }}</p>
+<p>{{ city | random }}</p>
+<p>{{ mobile | mobile }}</p>
+<p>{{ sex | sex }}</p>
+</body>
+</html>
