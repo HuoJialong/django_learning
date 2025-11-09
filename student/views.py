@@ -43,6 +43,7 @@ class StudentView(View):
     def post(self, request):
         # 添加学生数据
         data = {}
+        # print(request.body)
         return JsonResponse(data, status=201)
 
     def put(self, request):
@@ -51,15 +52,15 @@ class StudentView(View):
         """
         这一部分为自己研究，怎么通过获取数据来修改模型中的数据，进而修改数据库中的数据
         """
-        stu = models.Student.objects.get(id=1)
-        print(stu.name)
-        print(stu.update_time.strftime('%Y-%m-%d %H:%M:%S'))
-
-        stu.name = "关羽"
-        stu.update_time = datetime.datetime.now()
-        stu.save()
-        print(stu.name)
-        print(stu.update_time.strftime('%Y-%m-%d %H:%M:%S'))
+        # stu = models.Student.objects.get(id=1)
+        # print(stu.name)
+        # print(stu.update_time.strftime('%Y-%m-%d %H:%M:%S'))
+        #
+        # stu.name = "关羽"
+        # stu.update_time = datetime.datetime.now()
+        # stu.save()
+        # print(stu.name)
+        # print(stu.update_time.strftime('%Y-%m-%d %H:%M:%S'))
 
         data = {}
         return JsonResponse(data, status=201)
