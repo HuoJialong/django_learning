@@ -19,33 +19,51 @@ class StudentView(View):
         通过objects.all()的方法来获取数据
         """
         # 获取学生数据
-        object_list = models.Student.objects.all()
-        stu = object_list[0]
-        print(stu.name)
-        print(stu.create_time.strftime('%Y-%m-%d %H:%M:%S'))
-        # 当字段声明中使用choices可选值选项后，在模型对象里面就可以使用.get_<字段名>_display()来获取当前选项的提示文本
-        print(stu.status, stu.get_status_display())
-
-        student_list = []
-        for obj in object_list:
-            # print(obj, type(obj))
-            student_list.append(
-                {
-                    "id": obj.id,
-                    "name": obj.name,
-                    "age": obj.age,
-                    "description": obj.description,
-
-                }
-            )
-        # print(student_list)
+        # object_list = models.Student.objects.all()
+        # stu = object_list[0]
+        # print(stu.name)
+        # print(stu.create_time.strftime('%Y-%m-%d %H:%M:%S'))
+        # # 当字段声明中使用choices可选值选项后，在模型对象里面就可以使用.get_<字段名>_display()来获取当前选项的提示文本
+        # print(stu.status, stu.get_status_display())
+        #
         # student_list = []
-        return JsonResponse({}, safe=False)
+        # for obj in object_list:
+        #     # print(obj, type(obj))
+        #     student_list.append(
+        #         {
+        #             "id": obj.id,
+        #             "name": obj.name,
+        #             "age": obj.age,
+        #             "description": obj.description,
+        #
+        #         }
+        #     )
+        # # print(student_list)
+        # # student_list = []
+        # return JsonResponse({}, safe=False)
         """
         通过objects.values()来获取数据
         """
         # student_list = models.Student.objects.values("id", "name", "age")
         # return JsonResponse(list(student_list), safe=False)
+
+        """
+        过滤操作
+        """
+    # #     1.相等运算符 exact或者=
+    #     stu1 = models.Student.objects.filter(id=3).first()
+    #     print(stu1,type(stu1))
+    #     stu2 = models.Student.objects.filter(id__exact=3).first()
+    #     print(stu2, type(stu2))
+    #     return JsonResponse({})
+
+    # 2.模糊查询contains，相当于sql中的like
+    # 模型类.objects.filter(字段名__contains="值")
+    # 查询名字中包含“华”字的同学
+        stu3=models.Student.objects.filter(name__contains="华").values()
+        print(stu3, type(stu3))
+        return JsonResponse(list(stu3), safe=False)
+
 
     def post(self, request):
         # 添加学生数据
