@@ -70,11 +70,16 @@ class StudentView(View):
     #     print(stu4)
     #     return JsonResponse(list(stu4),safe=False)
 
-        # 4.查询以固定值结尾的数据
-        # 查询名字最后一个字是"梅"的学生
-        stu5 = models.Student.objects.filter(name__endswith="梅").all()
-        print(stu5)
-        return  JsonResponse({})
+        # # 4.查询以固定值结尾的数据
+        # # 查询名字最后一个字是"梅"的学生
+        # stu5 = models.Student.objects.filter(name__endswith="梅").all()
+        # print(stu5)
+        # return  JsonResponse({})
+
+    # 5.空值查询
+        stu6 = models.Student.objects.filter(description__isnull=True).all()
+        print(stu6)
+        return JsonResponse({})
 
 
 
@@ -121,8 +126,8 @@ class StudentView(View):
         #     "age": student.age
         # }
         #
-        stu1 = models.Student(name="老大", age=10, sex="M", classmate="201", mobile="12312345678", description="老大",
-                              status=1)
+        # stu1 = models.Student(name="老大", age=10, sex="M", classmate="201", mobile="12312345678", description="老大",
+        #                       status=1)
         # stu2 = models.Student(name="老二",age=9,sex="F",classmate="301",mobile="12314345678", description="老二",status=2)
         # stu3 = models.Student(name="老三",age=8,sex="F",classmate="401",mobile="12313345678", description="老三",status=0)
         # ret = models.Student.objects.bulk_create([stu1,stu2,stu3])
@@ -132,7 +137,7 @@ class StudentView(View):
         # return JsonResponse({"succeed!": len(ret)}, status=201, safe=False)
         #     使用faker来生成虚拟数据，存储到student表中
         faker = Faker('zh_CN')
-        for num in range(100):
+        for num in range(2):
             stu1 = models.Student(
                 id=num + 1,
                 name=faker.name(),
@@ -140,7 +145,7 @@ class StudentView(View):
                 sex=random.choice(["M", "F"]),
                 classmate=random.choice(["201", "202", "301", "302", "401"]),
                 mobile=str(faker.phone_number()),
-                description=faker.sentence(),
+                description=" ",
                 status=random.choice([0, 1, 2]))
             stu1.save()
             # student = models.Student(
