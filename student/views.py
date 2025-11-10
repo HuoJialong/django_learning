@@ -76,9 +76,13 @@ class StudentView(View):
         # print(stu5)
         # return  JsonResponse({})
 
-    # 5.空值查询
-        stu6 = models.Student.objects.filter(description__isnull=True).all()
-        print(stu6)
+    # # 5.空值查询
+    #     stu6 = models.Student.objects.filter(description__isnull=True).all()
+    #     print(stu6)
+    #     return JsonResponse({})
+    # 6.范围查询in
+        stu7 = models.Student.objects.filter(classmate__in=["301","401"]).all()
+        print(stu7)
         return JsonResponse({})
 
 
