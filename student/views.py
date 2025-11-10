@@ -91,6 +91,14 @@ class StudentView(View):
     #     print(stu8)
     #     return JsonResponse({})
 
+    # 8.比较查询，这里不放代码了
+    # gt：大于
+    # gte：大于等于
+    # lt：小于
+    # lte：小于等于
+    # exclude：不等于
+
+
 
 
 
