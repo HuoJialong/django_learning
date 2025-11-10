@@ -98,6 +98,28 @@ class StudentView(View):
     # lte：小于等于
     # exclude：不等于
 
+    # 9.时间查询
+    # # 例1:查询固定年或月的学生信息
+    #     stu9 = models.Student.objects.filter(
+    #         create_time__year="2022",
+    #         create_time__month="11",).all()
+    #     print(stu9)
+    #     return JsonResponse({})
+    # # 例2:查询精确时间的学生数据
+    #     stu10 = models.Student.objects.filter(create_time="2025-11-09 23:32:13.389604").all()
+    #     print(stu10)
+    #     return JsonResponse({})
+    # 例3：查询两个时间范围内的数据
+        time1 = "2022-06-09 20:32:13"
+        time2 = "2022-06-10 23:32:13"
+        stu11 = models.Student.objects.filter(
+            create_time__gt=time1,
+            create_time__lt=time2
+        ).all()
+        print(stu11)
+        return JsonResponse({})
+
+
 
 
 
