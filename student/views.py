@@ -145,7 +145,24 @@ class StudentView(View):
     #     # 相当于select * from student where (class="201" and sex="M") or (class="301" and sex="M")
     #     print(stu15)
     #     return JsonResponse({})
-
+        """
+        单字段排序操作：order_by(属性),升序排序；order_by(-属性)，降序排序
+        多字段排序操作：order_by(属性1，属性2)，排序顺序从左到右
+        """
+        # # 查询301班所有学生，并按年龄升序排序
+        # stu16 = models.Student.objects.filter(classmate="301").order_by("age").values("name", "age")
+        # print(stu16)
+        # # 查询301班所有学生，并按年龄降序排序
+        # stu17 = models.Student.objects.filter(classmate="301").order_by("-age").values("name", "age")
+        # print(stu17)
+        # 查询201班、301班和401班学生，同时按照年龄排序
+        stu18 = models.Student.objects.filter(
+            classmate__in=["201","301","401"]
+        ).order_by(
+            "classmate",
+            "age"
+        ).values("id","name","age","classmate")
+        return JsonResponse(list(stu18), safe=False)
 
 
 
