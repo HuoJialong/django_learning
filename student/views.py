@@ -57,12 +57,27 @@ class StudentView(View):
     #     print(stu2, type(stu2))
     #     return JsonResponse({})
 
-    # 2.模糊查询contains，相当于sql中的like
-    # 模型类.objects.filter(字段名__contains="值")
-    # 查询名字中包含“华”字的同学
-        stu3=models.Student.objects.filter(name__contains="华").values()
-        print(stu3, type(stu3))
-        return JsonResponse(list(stu3), safe=False)
+    # # 2.模糊查询contains，相当于sql中的like
+    # # 模型类.objects.filter(字段名__contains="值")
+    # # 查询名字中包含“华”字的同学
+    #     stu3=models.Student.objects.filter(name__contains="华").values()
+    #     print(stu3, type(stu3))
+    #     return JsonResponse(list(stu3), safe=False)
+
+    # # 3.查询以固定值开头的数据
+    # # 查询姓李的学生
+    #     stu4 = models.Student.objects.filter(name__startswith="李").values()
+    #     print(stu4)
+    #     return JsonResponse(list(stu4),safe=False)
+
+        # 4.查询以固定值结尾的数据
+        # 查询名字最后一个字是"梅"的学生
+        stu5 = models.Student.objects.filter(name__endswith="梅").all()
+        print(stu5)
+        return  JsonResponse({})
+
+
+
 
 
     def post(self, request):
