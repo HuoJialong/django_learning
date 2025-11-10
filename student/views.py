@@ -131,9 +131,44 @@ class StudentView(View):
         # print(stu.name)
         # print(stu.update_time.strftime('%Y-%m-%d %H:%M:%S'))
 
-        data = {}
-        return JsonResponse(data, status=201)
+        # data = {}
+        # return JsonResponse(data, status=201)
+
+        """
+        使用save（）保存当前数据模型，并同步到数据库
+        使用save（）修改模型数据可以修改一条或多条，只需最后使用save（）进行保存即可
+        """
+        # stu2 = models.Student.objects.get(id=1)
+        # faker = Faker('zh_CN')
+        # stu2.name = faker.name()
+        # stu2.save()
+        # return JsonResponse({})
+
+        """
+        使用update更新符合条件的模型一条或几条数据
+        例如将id=5，6的两名同学班级改为101
+        """
+        # stu3 = models.Student.objects.filter(id__in=[5,  6]).all()
+        # print(stu3)
+        models.Student.objects.filter(id__in=[5,6]).update(classmate="101")
+        return JsonResponse({})
 
     def delete(self, request):
-        data = {}
-        return JsonResponse(data, status=204)
+        """
+        模型对象.delete()
+        """
+        # try:
+        #     stu4 = models.Student.objects.get(id=120)
+        #     stu4.delete()
+        # except models.Student.DoesNotExist:
+        #     print("模型对象不存在")
+        #     pass
+        # return JsonResponse({}, status=204)
+
+        """
+        模型类.objects.delete() #删除全表数据，慎用！
+        模型类.objects.filter(条件).delete()  #删除表中满足条件的一条或多条数据
+        """
+#         删除id>95的数据
+        models.Student.objects.filter(id__gte=95).delete()
+        return JsonResponse({})
