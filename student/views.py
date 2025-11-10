@@ -109,16 +109,42 @@ class StudentView(View):
     #     stu10 = models.Student.objects.filter(create_time="2025-11-09 23:32:13.389604").all()
     #     print(stu10)
     #     return JsonResponse({})
-    # 例3：查询两个时间范围内的数据
-        time1 = "2022-06-09 20:32:13"
-        time2 = "2022-06-10 23:32:13"
-        stu11 = models.Student.objects.filter(
-            create_time__gt=time1,
-            create_time__lt=time2
-        ).all()
-        print(stu11)
-        return JsonResponse({})
+    # # 例3：查询两个时间范围内的数据
+    #     time1 = "2022-06-09 20:32:13"
+    #     time2 = "2022-06-10 23:32:13"
+    #     stu11 = models.Student.objects.filter(
+    #         create_time__gt=time1,
+    #         create_time__lt=time2
+    #     ).all()
+    #     print(stu11)
+    #     return JsonResponse({})
 
+    # # 10.F对象：实现数据对象中字段与字段之间的判断过滤，F其实是field的缩写
+    # # F对象其实实现的sql语句是select * from student where create_time=update_time
+    #     from django.db.models import F
+    #     stu12 = models.Student.objects.filter(create_time=F("update_time")).all()
+    #     print(stu12)
+    #     return JsonResponse({})
+
+    # 11.Q对象
+    # # Q对象来实现and或者or语句
+    #     stu13 = models.Student.objects.filter(classmate__in=("201", "301")).all()
+    #     # 相当于语句select * from student where class in ("201", "301")
+    #     print(stu13)
+    #
+    #     from django.db.models import Q
+    #     # 查询201班和301班的同学
+    #     stu14 = models.Student.objects.filter(Q(classmate="201") | Q(classmate="301")).all()
+    #     # 相当于语句select * from student where class="201" or class="301"
+    #     print(stu14)
+    #     # 查询201班的男生和301班的男生
+    #     stu15 = models.Student.objects.filter(
+    #         Q(classmate="201", sex="M") |
+    #         Q(classmate="301", sex="M")
+    #     ).all()
+    #     # 相当于select * from student where (class="201" and sex="M") or (class="301" and sex="M")
+    #     print(stu15)
+    #     return JsonResponse({})
 
 
 
