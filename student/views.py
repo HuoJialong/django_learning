@@ -80,10 +80,16 @@ class StudentView(View):
     #     stu6 = models.Student.objects.filter(description__isnull=True).all()
     #     print(stu6)
     #     return JsonResponse({})
-    # 6.范围查询in
-        stu7 = models.Student.objects.filter(classmate__in=["301","401"]).all()
-        print(stu7)
-        return JsonResponse({})
+
+    # # 6.范围查询in
+    #     stu7 = models.Student.objects.filter(classmate__in=["301","401"]).all()
+    #     print(stu7)
+    #     return JsonResponse({})
+
+    # # 7.数字范围查询range
+    #     stu8 = models.Student.objects.filter(id__range=(20,30)).all()
+    #     print(stu8)
+    #     return JsonResponse({})
 
 
 
