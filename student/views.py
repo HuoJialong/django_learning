@@ -204,9 +204,32 @@ class StudentView(View):
         # print(stu21_count["id__count"])
 
         """查询301班同学的年龄之和"""
-        stu21_age_num = stu21.aggregate(Sum("age"))
-        print(stu21_age_num)
-        print(stu21_age_num["age__sum"])
+        # stu21_age_num = stu21.aggregate(Sum("age"))
+        # print(stu21_age_num)
+        # print(stu21_age_num["age__sum"])
+
+
+        """
+        聚合分组，使用annotate
+        model.Student.objects.values("属性名").annotate(存储结果的变量=聚合函数（字段名）)
+        """
+        # 例：查询每个班的平均年龄
+        # age_avg = models.Student.objects.values("classmate").annotate(age__avg=Avg("age"))
+        # print(age_avg)
+
+        # 例，查询301班和401班学生的平均年龄，annotate前使用filter，相当于sql中的where
+        # age_avg1 = models.Student.objects.filter(
+        #     classmate__in=["301", "401"]
+        # ).values("classmate").annotate(age_avg=Avg("age"))
+        # print(age_avg1)
+
+        # annotate之后使用filter，相当于sql语句中的having
+        # 例：查询301、302、401班级中平均年龄大于10岁的班级
+        age_avg2 = models.Student.objects.filter(classmate__in=["301", "302", "402"]).values("classmate").annotate(age_avg=Avg("age")).filter(
+            age_avg__gt=8.3)
+        print(age_avg2)
+
+
 
         return JsonResponse({})
 
