@@ -1,4 +1,5 @@
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.db.models.expressions import result
 from django.http.response import JsonResponse
 from django.http.response import HttpResponse
 from django.views import View
@@ -169,14 +170,47 @@ class StudentView(View):
         """
         """注意：不管是切片还是下标，QuerySet并不会立刻执行（相当于购物放到购物车中），直到调用结果（相当于付款）的时候才会执行"""
         """下标操作"""
-        stu18 = models.Student.objects.all()[0]  # 获取下标为0的数据，相当于sql语句的limit 1
-        print((stu18),type(stu18))
-        stu19 = models.Student.objects.all()[2]  # 获取下标为2的数据，相当于sql语句的lmiit 1 offset 2
-        print(stu19,type(stu19))
-        """切片操作"""
-        stu20 = models.Student.objects.all()[1:5] # 获取下标为1-5（不含）的数据，相当于sql语句的limit 4 offset4
-        print(stu20, type(stu20))
+        # stu18 = models.Student.objects.all()[0]  # 获取下标为0的数据，相当于sql语句的limit 1
+        # print((stu18),type(stu18))
+        # stu19 = models.Student.objects.all()[2]  # 获取下标为2的数据，相当于sql语句的lmiit 1 offset 2
+        # print(stu19,type(stu19))
+        # """切片操作"""
+        # stu20 = models.Student.objects.all()[1:5] # 获取下标为1-5（不含）的数据，相当于sql语句的limit 4 offset4
+        # print(stu20, type(stu20))
+        # return JsonResponse({})
+
+
+        """
+        聚合操作，主要包括平均avg，
+        """
+        from django.db.models import Avg, Sum, Max, Min, Count
+        """查询301班同学的平均年龄"""
+        stu21 = models.Student.objects.filter(classmate="301")
+        # stu21_age_avg = stu21.aggregate(Avg('age'))
+        # print(stu21_age_avg)
+        # print(stu21_age_avg["age__avg"])
+        """查询301班同学的最大和最小年龄"""
+        # stu21_age_max = stu21.aggregate(Max("age"))
+        # print(stu21_age_max)
+        # print(stu21_age_max["age__max"])
+        #
+        # stu21_age_min = stu21.aggregate(Min("age"))
+        # print(stu21_age_min)
+        # print(stu21_age_min["age__min"])
+
+        """查询301班同学的数量"""
+        # stu21_count = stu21.aggregate(Count("id"))
+        # print(stu21_count)
+        # print(stu21_count["id__count"])
+
+        """查询301班同学的年龄之和"""
+        stu21_age_num = stu21.aggregate(Sum("age"))
+        print(stu21_age_num)
+        print(stu21_age_num["age__sum"])
+
         return JsonResponse({})
+
+
 
 
 
