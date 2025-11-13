@@ -225,11 +225,16 @@ class StudentView(View):
 
         # annotate之后使用filter，相当于sql语句中的having
         # 例：查询301、302、401班级中平均年龄大于10岁的班级
-        age_avg2 = models.Student.objects.filter(classmate__in=["301", "302", "402"]).values("classmate").annotate(age_avg=Avg("age")).filter(
-            age_avg__gt=8.3)
-        print(age_avg2)
+        # age_avg2 = models.Student.objects.filter(classmate__in=["301", "302", "402"]).values("classmate").annotate(age_avg=Avg("age")).filter(
+        #     age_avg__gt=8.3)
+        # print(age_avg2)
 
-
+        """原生查询"""
+        sql = "select * from student"
+        student_list = models.Student.objects.raw(sql)
+        print(student_list)
+        for item in student_list:
+            print(item, type(item))
 
         return JsonResponse({})
 
