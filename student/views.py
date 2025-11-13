@@ -156,13 +156,30 @@ class StudentView(View):
         # stu17 = models.Student.objects.filter(classmate="301").order_by("-age").values("name", "age")
         # print(stu17)
         # 查询201班、301班和401班学生，同时按照年龄排序
-        stu18 = models.Student.objects.filter(
-            classmate__in=["201","301","401"]
-        ).order_by(
-            "classmate",
-            "age"
-        ).values("id","name","age","classmate")
-        return JsonResponse(list(stu18), safe=False)
+        # stu18 = models.Student.objects.filter(
+        #     classmate__in=["201","301","401"]
+        # ).order_by(
+        #     "classmate",
+        #     "age"
+        # ).values("id","name","age","classmate")
+        # return JsonResponse(list(stu18), safe=False)
+
+        """
+        QuerySet提供下标和切片操作，允许我们组装sql语句的limit和offset语句代码
+        """
+        """注意：不管是切片还是下标，QuerySet并不会立刻执行（相当于购物放到购物车中），直到调用结果（相当于付款）的时候才会执行"""
+        """下标操作"""
+        stu18 = models.Student.objects.all()[0]  # 获取下标为0的数据，相当于sql语句的limit 1
+        print((stu18),type(stu18))
+        stu19 = models.Student.objects.all()[2]  # 获取下标为2的数据，相当于sql语句的lmiit 1 offset 2
+        print(stu19,type(stu19))
+        """切片操作"""
+        stu20 = models.Student.objects.all()[1:5] # 获取下标为1-5（不含）的数据，相当于sql语句的limit 4 offset4
+        print(stu20, type(stu20))
+        return JsonResponse({})
+
+
+
 
 
 
