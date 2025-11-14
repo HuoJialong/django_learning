@@ -72,6 +72,10 @@ class StudentView(View):
 
         # 例：通过update进行更新数据
         # 更新小红的家庭地址
-        models.StudentProfile.objects.filter(student__name="小白").update(address="更新后的小白的家庭住址")
-        models.Student.objects.filter(profile__mobile="12312345679").update(age=20)
-        return JsonResponse({})
+        # models.StudentProfile.objects.filter(student__name="小白").update(address="更新后的小白的家庭住址")
+        # models.Student.objects.filter(profile__mobile="12312345679").update(age=20)
+        # return JsonResponse({})
+
+        """
+        删除操作
+        """
