@@ -51,6 +51,22 @@ class StudentView(View):
         # return JsonResponse({})
 
         """方式4:使用主键模型查询数据，以外键模型作为条件"""
-        stu = models.Student.objects.filter(profile__mobile="12312344679").first()
-        print(stu)
+        # stu = models.Student.objects.filter(profile__mobile="12312344679").first()
+        # print(stu)
+        # return JsonResponse({})
+
+        """
+        修改数据
+        """
+        # 例：修改小明的家庭住址，根据主键条件来修改外键模型数据
+        stu1 = models.Student.objects.filter(name="小明").first()
+        stu1.profile.address = "更新后的小明的家庭住址"
+        print(stu1)
+        print(stu1.profile)
+        stu1.profile.save()
+
+        # 例：根据电话号码修改人名，根据外键模型条件修改主键数据
+        stu2 = models.StudentProfile.objects.filter(mobile="12312345679").first()
+        stu2.student.name = "更新后的名字"
+        stu2.student.save()
         return JsonResponse({})

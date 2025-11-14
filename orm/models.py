@@ -15,6 +15,8 @@ class Student(models.Model):
         return str({"id": self.pk, "name": self.name, "age": self.age, "sex": self.sex})
 
 class StudentProfile(models.Model):
+    # 从主键模型查询外键模型用.profile
+    # 从外键模型查询主键模型用.student
     student = models.OneToOneField("Student", on_delete=models.CASCADE, related_name="profile")
     # CASCADE: 株连/级联
     description = models.TextField(default="", verbose_name="个性签名")
