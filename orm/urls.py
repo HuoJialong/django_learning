@@ -1,7 +1,8 @@
 
-from . import models
+from . import views
 from django.urls import path
 
-urlpatterns = [
 
+urlpatterns = [
+    path("Student/", views.StudentView.as_view()),
 ]
