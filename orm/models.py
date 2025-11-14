@@ -53,6 +53,7 @@ class Author(models.Model):
 class Article(models.Model):
     title = models.TextField(default="", verbose_name="文章名称")
     pub_date = models.DateTimeField(null=True,verbose_name="发布时间")
+    content = models.TextField(null=True,verbose_name="文章内容")
     create_time = models.DateTimeField(auto_now_add=True,verbose_name="创建时间")
     update_time = models.DateTimeField(auto_now=True,verbose_name="更新时间")
     author = models.ForeignKey("Author", on_delete=models.DO_NOTHING,related_name="article_list",verbose_name="作者")
