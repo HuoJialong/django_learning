@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "exercise",
     "cbv",
     "student",
+    "orm",
 ]
 
 MIDDLEWARE = [

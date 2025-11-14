@@ -29,4 +29,5 @@ urlpatterns = [
     path('exercise/', include('exercise.urls')),
     path("cbv/", include("cbv.urls")),
     path('student/', include('student.urls')),
+    path('orm/', include('orm.urls')),
 ]

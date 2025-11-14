@@ -230,13 +230,18 @@ class StudentView(View):
         # print(age_avg2)
 
         """原生查询"""
-        sql = "select * from student"
-        student_list = models.Student.objects.raw(sql)
-        print(student_list)
-        for item in student_list:
-            print(item, type(item))
+        # sql = "select * from student"
+        # student_list = models.Student.objects.raw(sql)
+        # print(student_list)
+        # for item in student_list:
+        #     print(item, type(item))
+        # return JsonResponse({})
 
+        """多库共存的时候，使用using来切换数据库"""
+        # models.Student.objects.using("default").values("name","age")
+        # 其中using的参数为settings中的数据库别名
         return JsonResponse({})
+
 
 
 
