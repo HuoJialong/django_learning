@@ -79,3 +79,52 @@ class StudentView(View):
         """
         删除操作
         """
+        return JsonResponse({})
+
+class ArticleView(View):
+    def get(self, request):
+        """
+        添加数据
+        """
+        """1.从0开始添加数据"""
+        # author = models.Author.objects.create(
+        #     name="小明",
+        #     age=19,
+        #     sex=True,
+        # )
+        # article_list = [
+        #     models.Article(title="文章1", content="这是文章1", pub_date="2024-01-01 10:00:00",author=author),
+        #     models.Article(title="文章2", content="这是文章2", pub_date="2025-07-09 11:00:00", author_id=author.id)
+        # ]
+        # models.Article.objects.bulk_create(article_list)
+
+        """2.给主模型中已有的作者添加数据"""
+        # author1 = models.Author.objects.filter(name="小明").first()
+        # if author1:
+        #     article_list1 = [
+        #         models.Article(title="文章3", content="这是文章3", pub_date="2020-09-01 10:00:00",author=author1),
+        #         models.Article(title="文章4", content="这是文章4", pub_date="2020-06-09 11:00:00", author_id=author1.id)
+        #     ]
+        #     models.Article.objects.bulk_create(article_list1)
+
+        # return JsonResponse({})
+
+        """
+        查询数据
+        """
+        # 查询小明发表的文章
+        # 方法1
+        # author = models.Author.objects.filter(name="小明").first()
+        # if author:
+        #     print(author)
+        #     print(author.article_list.all())
+        # return JsonResponse({})
+#         方法2:主键作为条件进行查询
+#         article = models.Article.objects.filter(author__name="小明").all()
+#         print(article)
+#         return JsonResponse({})
+#        例：查询文章标题的作者
+        author = models.Author.objects.filter(article_list__title="文章2").first()
+        print(author.name)
+        return JsonResponse({})
+
