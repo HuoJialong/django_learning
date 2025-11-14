@@ -7,20 +7,50 @@ from django.http import JsonResponse
 class StudentView(View):
     def get(self, request):
         """添加数据操作"""
-        #  方式1:先添加主模型数据student，再添加外键模型数据
-        student = models.Student.objects.create(
-            name="小白",
-            age=18,
-            sex=True,
-        )
+        # #  目前的唯一方式：先添加主模型数据student，再添加外键模型数据
+        # student = models.Student.objects.create(
+        #     name="小白",
+        #     age=18,
+        #     sex=True,
+        # )
+        #
+        # models.StudentProfile.objects.create(
+        #     # student=student,  # 通过指定对象的方式，自动绑定外键。
+        #     student_id=student.pk,  #与上面依据等效
+        #     # 实际上等效于student.id=student.id
+        #     description="这是我的个性签名",
+        #     address="学生小白的家庭住址",
+        #     mobile="12312344679",
+        # )
+        #
+        # return JsonResponse({})
 
-        models.StudentProfile.objects.create(
-            # student=student,  # 通过指定对象的方式，自动绑定外键。
-            student_id=student.pk,  #与上面依据等效
-            # 实际上等效于student.id=student.id
-            description="这是我的个性签名",
-            address="学生小白的家庭住址",
-            mobile="12312344679",
-        )
+        """
+        查询数据
+        """
+        """方式1:从主模型（主表，orm_student）查询到外键模型(附加表，orm_student_profile)"""
+        # # 例：查询小明的电话号码和家庭住址
+        # student = models.Student.objects.filter(name="小明").first()
+        # if student:
+        # profile就是在StudentProfile中定义的related_name
+        #     print(student.profile.mobile)
+        #     print(student.profile.address)
+        # return JsonResponse({})
 
+        """方式2:使用外键模型查询数据，以主键模型作为条件"""
+        # student = models.StudentProfile.objects.filter(student__name="小白").first()
+        # print(student)
+        # return JsonResponse({})
+
+
+        """方式3:根据外键模型(附加表，orm_student_profile)的参数查询主模型的数据（主表，orm_student）"""
+        # 例：根据手机号，查询电话号码是谁的
+        # student = models.StudentProfile.objects.filter(mobile="12312344679").first()
+        # if student:
+        #     print(student.student.name)
+        # return JsonResponse({})
+
+        """方式4:使用主键模型查询数据，以外键模型作为条件"""
+        stu = models.Student.objects.filter(profile__mobile="12312344679").first()
+        print(stu)
         return JsonResponse({})
