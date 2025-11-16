@@ -197,9 +197,10 @@ class TeacherView(View):
 #             course.name = course.name + "(专课)"
 #             course.save()
 
-        # from django.db.models import F
+        from django.db.models import F, Value
+        from django.db.models.functions import Concat
         # # 下面这种方式只能用于整型
-        # # models.Course.objects.filter(teacher__name="小明").update(name=(F("name")+"新增")) #这是不行的
+        models.Course.objects.filter(teacher__name="小明").update(name=Concat(F("name"), Value("新增"))) #这是可以的
         # models.Teacher.objects.update(age=F("age")+1) # 这是可以的
 
 #
