@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from . import models
 from django.http import JsonResponse
+import datetime
 # Create your views here.
 
 class StudentView(View):
@@ -124,7 +125,20 @@ class ArticleView(View):
 #         print(article)
 #         return JsonResponse({})
 #        例：查询文章标题的作者
-        author = models.Author.objects.filter(article_list__title="文章2").first()
-        print(author.name)
-        return JsonResponse({})
+#         author = models.Author.objects.filter(article_list__title="文章2").first()
+#         print(author.name)
+#         return JsonResponse({})
 
+        """
+        修改数据
+        """
+        """将作者为小明的文章的pub_date都改为2025-09-11 10:00:00"""
+
+        article = models.Article.objects.filter(author__name="小明")
+        for item in article:
+            item.update_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            item.save()
+        # print(article, type(article))
+        # article["pub_date"] = "2025-09-11 10:00:00"
+
+        return JsonResponse({})
