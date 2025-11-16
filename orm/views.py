@@ -186,3 +186,22 @@ class TeacherView(View):
         # for course in course_list:
         #     print(course, type(course), course["name"])
         # return JsonResponse({})
+
+        """
+        更新数据
+        """
+#       将名为小明的老师的课程后面加上（专课）
+        teacher = models.Teacher.objects.filter(name="小明").first()
+        print(teacher)
+        for course in teacher.course.all():
+            course.name = course.name + "(专课)"
+            course.save()
+
+        # from django.db.models import F
+        # # 下面这种方式只能用于整型
+        # # models.Course.objects.filter(teacher__name="小明").update(name=(F("name")+"新增")) #这是不行的
+        # models.Teacher.objects.update(age=F("age")+1) # 这是可以的
+
+#
+        return JsonResponse({})
+
