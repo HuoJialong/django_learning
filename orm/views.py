@@ -191,11 +191,11 @@ class TeacherView(View):
         更新数据
         """
 #       将名为小明的老师的课程后面加上（专课）
-        teacher = models.Teacher.objects.filter(name="小明").first()
-        print(teacher)
-        for course in teacher.course.all():
-            course.name = course.name + "(专课)"
-            course.save()
+#         teacher = models.Teacher.objects.filter(name="小明").first()
+#         print(teacher)
+#         for course in teacher.course.all():
+#             course.name = course.name + "(专课)"
+#             course.save()
 
         # from django.db.models import F
         # # 下面这种方式只能用于整型
@@ -203,5 +203,17 @@ class TeacherView(View):
         # models.Teacher.objects.update(age=F("age")+1) # 这是可以的
 
 #
+        # return JsonResponse({})
+        """
+        删除之后，mysql会自动删除绑定关系
+        """
+        models.Teacher.objects.filter(name="小红").delete()
+
+        """
+        解绑关系
+        """
+        teacher = models.Teacher.objects.filter(name="小明").first()
+        course = models.Course.objects.filter(name="数学课").first()
+        teacher.course.remove(course)
         return JsonResponse({})
 
