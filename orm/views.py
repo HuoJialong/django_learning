@@ -1,8 +1,14 @@
+from tkinter.font import names
+
 from django.shortcuts import render
 from django.views import View
 from . import models
 from django.http import JsonResponse
 import datetime
+
+from .models import Course
+
+
 # Create your views here.
 
 class StudentView(View):
@@ -134,11 +140,34 @@ class ArticleView(View):
         """
         """将作者为小明的文章的pub_date都改为2025-09-11 10:00:00"""
 
-        article = models.Article.objects.filter(author__name="小明")
-        for item in article:
-            item.update_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            item.save()
-        # print(article, type(article))
-        # article["pub_date"] = "2025-09-11 10:00:00"
+        # article = models.Article.objects.filter(author__name="小明")
+        # for item in article:
+        #     item.update_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        #     item.save()
+        # # print(article, type(article))
+        # # article["pub_date"] = "2025-09-11 10:00:00"
+        #
+        # return JsonResponse({})
+
+class TeacherView(View):
+    def get(self, request):
+        """
+        添加数据,通过.add绑定关系
+        """
+        teacher = models.Teacher.objects.create(
+            name="小明",
+            age=32,
+            sex=False,
+        )
+        course = models.Course.objects.create(
+            name="数学课"
+        )
+        # 绑定上面创造的两个对象之间的关系
+        teacher.course.add(course)
+
+        teacher1 = models.Teacher.objects.filter(name="小明").first()
+        course1 = models.Course.objects.create(name="英语课")
+        course2 = models.Course.objects.create(name="语文课")
+        teacher1.course.add(course1, course2)
 
         return JsonResponse({})

@@ -67,3 +67,24 @@ class Article(models.Model):
         return str({"title": self.title, "pub_date": self.pub_date,
                     "create_time":self.create_time,
                     "update_time":self.update_time})
+
+
+"""多对多：老师——课程"""
+class Teacher(models.Model):
+    name = models.CharField(max_length=20, db_index=True, verbose_name="姓名")
+    age = models.IntegerField(verbose_name="年龄")
+    sex = models.BooleanField(null=True, blank=True, default=None, verbose_name="性别")
+
+    class Meta:
+        db_table = "orm_teacher"
+        verbose_name = "老师信息"
+        verbose_name_plural = verbose_name
+
+class Course(models.Model):
+    name = models.CharField(max_length=50, db_index=True, verbose_name="课程名称")
+    teacher = models.ManyToManyField("Teacher", related_name="course")
+
+    class Meta:
+        db_table = "orm_course"
+        verbose_name = "课程表"
+        verbose_name_plural = verbose_name
