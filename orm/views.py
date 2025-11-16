@@ -49,7 +49,6 @@ class StudentView(View):
         # print(student)
         # return JsonResponse({})
 
-
         """方式3:根据外键模型(附加表，orm_student_profile)的参数查询主模型的数据（主表，orm_student）"""
         # 例：根据手机号，查询电话号码是谁的
         # student = models.StudentProfile.objects.filter(mobile="12312344679").first()
@@ -87,6 +86,7 @@ class StudentView(View):
         删除操作
         """
         return JsonResponse({})
+
 
 class ArticleView(View):
     def get(self, request):
@@ -126,14 +126,14 @@ class ArticleView(View):
         #     print(author)
         #     print(author.article_list.all())
         # return JsonResponse({})
-#         方法2:主键作为条件进行查询
-#         article = models.Article.objects.filter(author__name="小明").all()
-#         print(article)
-#         return JsonResponse({})
-#        例：查询文章标题的作者
-#         author = models.Author.objects.filter(article_list__title="文章2").first()
-#         print(author.name)
-#         return JsonResponse({})
+        #         方法2:主键作为条件进行查询
+        #         article = models.Article.objects.filter(author__name="小明").all()
+        #         print(article)
+        #         return JsonResponse({})
+        #        例：查询文章标题的作者
+        #         author = models.Author.objects.filter(article_list__title="文章2").first()
+        #         print(author.name)
+        #         return JsonResponse({})
 
         """
         修改数据
@@ -149,25 +149,40 @@ class ArticleView(View):
         #
         # return JsonResponse({})
 
+
 class TeacherView(View):
     def get(self, request):
         """
         添加数据,通过.add绑定关系
         """
-        teacher = models.Teacher.objects.create(
-            name="小明",
-            age=32,
-            sex=False,
-        )
-        course = models.Course.objects.create(
-            name="数学课"
-        )
-        # 绑定上面创造的两个对象之间的关系
-        teacher.course.add(course)
+        # teacher = models.Teacher.objects.create(
+        #     name="小明",
+        #     age=32,
+        #     sex=False,
+        # )
+        # course = models.Course.objects.create(
+        #     name="数学课"
+        # )
+        # # 绑定上面创造的两个对象之间的关系
+        # teacher.course.add(course)
+        #
+        # teacher1 = models.Teacher.objects.filter(name="小明").first()
+        # course1 = models.Course.objects.create(name="英语课")
+        # course2 = models.Course.objects.create(name="语文课")
+        # teacher1.course.add(course1, course2)
+        #
+        # return JsonResponse({})
 
-        teacher1 = models.Teacher.objects.filter(name="小明").first()
-        course1 = models.Course.objects.create(name="英语课")
-        course2 = models.Course.objects.create(name="语文课")
-        teacher1.course.add(course1, course2)
+        """
+        查询数据
+        """
+        # 查询名为小明的老师的所有课程
+        # 先查询一个模型，再查询另外一个模型
+        # teachers = models.Teacher.objects.filter(name="小明").first()
+        # print(teachers.course.values())
 
-        return JsonResponse({})
+        # 主模型作为条件来查询外键模型的数据
+        # course_list = models.Course.objects.filter(teacher__name="小明").values()
+        # for course in course_list:
+        #     print(course, type(course), course["name"])
+        # return JsonResponse({})
