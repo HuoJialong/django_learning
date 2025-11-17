@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class Student(models.Model):
     name = models.CharField(max_length=20, db_index=True, verbose_name="姓名")
@@ -13,6 +14,7 @@ class Student(models.Model):
 
     def __str__(self):
         return str({"id": self.pk, "name": self.name, "age": self.age, "sex": self.sex})
+
 
 class StudentProfile(models.Model):
     # 从主键模型查询外键模型用.profile
@@ -43,33 +45,36 @@ class Author(models.Model):
     sex = models.BooleanField(null=True, blank=True, default=None, verbose_name="性别")
 
     class Meta:
-        db_table="orm_author"
-        verbose_name="作者信息"
-        verbose_name_plural=verbose_name
+        db_table = "orm_author"
+        verbose_name = "作者信息"
+        verbose_name_plural = verbose_name
 
     def __str__(self):
-        return str({"name": self.name, "age": self.age,"sex":self.sex})
+        return str({"name": self.name, "age": self.age, "sex": self.sex})
+
 
 class Article(models.Model):
     title = models.TextField(default="", verbose_name="文章名称")
-    pub_date = models.DateTimeField(null=True,verbose_name="发布时间")
-    content = models.TextField(null=True,verbose_name="文章内容")
-    create_time = models.DateTimeField(auto_now_add=True,verbose_name="创建时间")
-    update_time = models.DateTimeField(auto_now=True,verbose_name="更新时间")
-    author = models.ForeignKey("Author", on_delete=models.DO_NOTHING,related_name="article_list",verbose_name="作者")
+    pub_date = models.DateTimeField(null=True, verbose_name="发布时间")
+    content = models.TextField(null=True, verbose_name="文章内容")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
+    update_time = models.DateTimeField(auto_now=True, verbose_name="更新时间")
+    author = models.ForeignKey("Author", on_delete=models.DO_NOTHING, related_name="article_list", verbose_name="作者")
 
     class Meta:
-        db_table="orm_article"
+        db_table = "orm_article"
         verbose_name = "文章信息"
         verbose_name_plural = verbose_name
 
     def __str__(self):
         return str({"title": self.title, "pub_date": self.pub_date,
-                    "create_time":self.create_time,
-                    "update_time":self.update_time})
+                    "create_time": self.create_time,
+                    "update_time": self.update_time})
 
 
 """多对多：老师——课程"""
+
+
 class Teacher(models.Model):
     name = models.CharField(max_length=20, db_index=True, verbose_name="姓名")
     age = models.IntegerField(verbose_name="年龄")
@@ -80,6 +85,7 @@ class Teacher(models.Model):
         verbose_name = "老师信息"
         verbose_name_plural = verbose_name
 
+
 class Course(models.Model):
     name = models.CharField(max_length=50, db_index=True, verbose_name="课程名称")
     teacher = models.ManyToManyField("Teacher", related_name="course")
@@ -88,3 +94,43 @@ class Course(models.Model):
         db_table = "orm_course"
         verbose_name = "课程表"
         verbose_name_plural = verbose_name
+
+
+"""
+自关联。（1）一对多自关联，行政区域划分；（2）多对多自关联，用户好友
+"""
+
+class Area(models.Model):
+    # 一对多的自关联模型，例子为行政划分
+    name = models.CharField(max_length=50, verbose_name="省市名称")
+    parent = models.ForeignKey(
+        "self",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="children",
+    )
+
+    class Meta:
+        db_table = "orm_area"
+        verbose_name = "行政划分表"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return str({"id": self.id, "name": self.name})
+
+class User(models.Model):
+    # 多对多自关联模型，例子为用户之前的相互好友关系
+    name = models.CharField(max_length=30, unique=True, verbose_name="用户名")
+    age = models.SmallIntegerField(default=0, verbose_name="年龄")
+    # 因为自关联的多对多极易形成递归寻找，因此，django默认不支持多对多的反向查询，
+    # 但是可以通过设置symmetrical=True来设置为支持
+    friends = models.ManyToManyField("self", symmetrical=True)
+
+    class Meta:
+        db_table = "orm_user"
+        verbose_name = "好友关注表"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return str({"name": self.name, "age": self.age})

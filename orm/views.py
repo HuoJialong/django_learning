@@ -218,3 +218,36 @@ class TeacherView(View):
         teacher.course.remove(course)
         return JsonResponse({})
 
+class AreaView(View):
+    def get(self, request):
+        # 注意创建
+        # area1 = models.Area.objects.create(name="江苏省")
+        # area2 = models.Area.objects.create(name="河北省")
+        #
+        # area3 = models.Area.objects.create(name="南京市", parent=area1)
+        # area4 = models.Area.objects.create(name="苏州市", parent=area1)
+        # area5 = models.Area.objects.create(name="常州市", parent=area1)
+        #
+        # area6 = models.Area.objects.create(name="鼓楼区", parent=area3)
+        # area7 = models.Area.objects.create(name="玄武区", parent=area3)
+        # area8 = models.Area.objects.create(name="秦淮区", parent=area3)
+        # 批量创建
+        # area9 = models.Area.objects.create(name="浙江省")
+        # area_list = [
+        #     models.Area(name="杭州市"),
+        #     models.Area(name="湖州市"),
+        #              ]
+        # # bulk属性只有在一对多的时候才存在
+        # area9.children.add(*area_list,bulk=False)
+        # return JsonResponse({})
+        """
+        查询数据
+        """
+#       查询河南省的所有城市
+        province = models.Area.objects.filter(name="江苏省").first()
+        print(province.children.all())
+
+        # 查询秦淮区属于哪个城市
+        city = models.Area.objects.filter(children__name="秦淮区").first()
+        print(city.name)
+        return JsonResponse({})
