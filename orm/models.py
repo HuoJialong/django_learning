@@ -20,6 +20,9 @@ class StudentProfile(models.Model):
     # 从主键模型查询外键模型用.profile
     # 从外键模型查询主键模型用.student
     student = models.OneToOneField("Student", on_delete=models.CASCADE, related_name="profile")
+    """1对1的虚拟外键设置，添加db_constraint=False，不影响增查删改的任何操作和语法"""
+    # student = models.OneToOneField("Student", on_delete=models.CASCADE, db_constraint=False, related_name="profile")
+    """"""
     # on_delete表示主键数据删除时，外键模型数据怎么处理，主要有5个常用表示
     # on_delete = models.CASCADE,株连/级联  删除主键数据，外键对应数据同步删除。但删除外键数据，不影响主键数据
     # on_delete = models.DO_NOTHING  不进行操作
@@ -60,7 +63,8 @@ class Article(models.Model):
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
     update_time = models.DateTimeField(auto_now=True, verbose_name="更新时间")
     author = models.ForeignKey("Author", on_delete=models.DO_NOTHING, related_name="article_list", verbose_name="作者")
-
+    """1对多的虚拟外键设置，添加db_constraint=False，不影响增查删改的任何操作和语法"""
+    # author = models.ForeignKey("Author", on_delete=models.DO_NOTHING, db_constraint=False, related_name="article_list", verbose_name="作者")
     class Meta:
         db_table = "orm_article"
         verbose_name = "文章信息"
