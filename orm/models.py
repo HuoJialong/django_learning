@@ -138,3 +138,58 @@ class User(models.Model):
 
     def __str__(self):
         return str({"name": self.name, "age": self.age})
+
+
+"""
+查询优化
+"""
+class Province(models.Model):
+    name = models.CharField(max_length=50, verbose_name="省份")
+
+    class Meta:
+        db_table = "orm_province"
+        verbose_name = "省份"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
+
+class City(models.Model):
+    name = models.CharField(max_length=50, verbose_name="城市")
+    province = models.ForeignKey("Province", default=None, on_delete=models.DO_NOTHING, verbose_name="省份")
+
+    class Meta:
+        db_table = "orm_city"
+        verbose_name = "城市"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
+
+class Person(models.Model):
+    firstname = models.CharField(max_length=20, verbose_name="姓")
+    lastname = models.CharField(max_length=20, verbose_name="名")
+    hometown = models.ForeignKey("City", on_delete=models.DO_NOTHING, related_name="hometown_people", verbose_name="家乡")
+    living = models.ForeignKey("City", related_name="living_people", on_delete=models.DO_NOTHING, verbose_name="居住地")
+    visitation = models.ManyToManyField("City", related_name="visit_people", verbose_name="旅游地")
+
+    class Meta:
+        db_table = "orm_person"
+        verbose_name = "用户信息"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.firstname+self.lastname
+
+class PersonProfile(models.Model):
+    mobile = models.CharField(max_length=20, verbose_name="电话号码")
+    wechat = models.CharField(max_length=50, verbose_name="微信号")
+    person = models.OneToOneField("Person", related_name="profile", on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = "orm_profile"
+        verbose_name = "用户详细信息"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.person.firstname+self.person.lastname
