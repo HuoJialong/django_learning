@@ -251,3 +251,31 @@ class AreaView(View):
         city = models.Area.objects.filter(children__name="秦淮区").first()
         print(city.name)
         return JsonResponse({})
+
+class PersonView(View):
+    def get(self, request):
+        """
+        使用select_related来查询1对1或多对1的数据
+        """
+        """查询赵一的数据"""
+        data = {}
+        person = models.Person.objects.filter(firstname="赵", lastname="一").all()
+        print(person)
+        """使用select_related优化上面的操作"""
+        # 查询了person的所有外键
+        person = models.Person.objects.filter(firstname="赵", lastname="一").all().select_related()
+        # 按照外键名称查询固定表
+        person = models.Person.objects.filter(firstname="赵", lastname="一").all().select_related("profile")
+        print(person)
+        # 查询钱二的家乡省份
+        person = models.Person.objects.filter(firstname="钱", lastname="二").all().select_related("hometown__province")
+        print(person[0].hometown.province)
+
+        """
+        使用prefetch_related来查询1对1或多对1的数据
+        """
+        """查询所有人"""
+        person_list = models.Person.objects.all().prefetch_related("visitation")
+        for person in person_list:
+            print(person.visitation.all())
+        return JsonResponse({})
