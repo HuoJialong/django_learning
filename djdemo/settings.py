@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "cbv",
     "student",
     "orm",
+    "modeldemo",
 ]
 
 MIDDLEWARE = [
