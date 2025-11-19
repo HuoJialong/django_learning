@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "student",
     "orm",
     "modeldemo",
+    "component",
 ]
 
 MIDDLEWARE = [
@@ -147,3 +148,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
 SESSION_FILE_PATH = BASE_DIR / "sessions"
+
+# 设置上传文件的公共保存路径
+MEDIA_ROOT = BASE_DIR / "uploads"
+# 允许外界通过下面路径访问到上传文件目录
+MEDIA_URL = '/uploads/'
