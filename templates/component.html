@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <title>分页</title>
+    <style>
+        .table-data{
+            border-collapse: collapse;
+            width: 680px;
+        }
+        .table-data td, th{
+            border: 1px solid red;
+            font-weight: normal;
+            text-align: center;
+        }
+        .paginator{
+            width: 680px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .paginator a{
+            color: #000;
+            text-decoration: none;
+            border: 1px solid lightgray;
+            padding: 4px 8px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .paginator a.current,
+        .paginator a:hover{
+            background-color: lightgray;
+            color: cadetblue;
+        }
+    </style>
+</head>
+<body>
+    <table class="table-data">
+        <tr>
+            <th>ID</th>
+            <th>name</th>
+            <th>age</th>
+            <th>sex</th>
+            <th>class</th>
+            <th>mobile</th>
+        </tr>
+        {% for student in page.object_list  %}
+            <tr>
+                <td>{{student.id}}</td>
+                <td>{{student.name}}</td>
+                <td>{{student.age}}</td>
+                <td>{{student.classmate}}</td>
+                <td>{{student.mobile}}</td>
+                <td>{{student.mobile}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <div class="paginator">
+        {% if page.has_previous %}
+        <a href="?page=1">首页</a>
+        <a href="?page={{ page.previous_page_number }}">上一页</a>
+        <a href="?page={{ page.previous_page_number }}">{{ page.previous_page_number }}</a>
+        {% endif %}
+        <a>{{ page.number }}</a>
+        {% if page.has_next %}
+        <a href="?page= {{ page.next_page_number }}">{{ page.next_page_number }}</a>
+        <a href="?page= {{ page.next_page_number }}">下一页</a>
+        <a href="?page={{ page.paginator.num_pages }}">尾页</a>
+        {% endif %}
+    </div>
+</body>
+</html>

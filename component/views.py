@@ -1,6 +1,10 @@
+from django.db.models.expressions import result
+from django.shortcuts import render
 from django.views import View
 from django.http import JsonResponse
 from . import models
+from student.models import Student
+from django.core.paginator import Paginator
 # Create your views here.
 
 class SoftwareView(View):
@@ -35,3 +39,28 @@ class SoftwareView(View):
         print(software.picture.path)
         software.delete()
         return JsonResponse({})
+
+class StudentView(View):
+    def get(self,request):
+        """数据分页"""
+        """提供了数据对象列表及单页数据，并创建了分页器对象"""
+        stu1 = Student.objects.all()
+        paginator = Paginator(stu1, 10)
+        # print(stu1)
+        print(paginator.num_pages,
+              paginator.count,
+              paginator.page_range)
+        """基于分页器对象，创业分页对象"""
+        # 接收客户端的页面，页面一般都是查询字符串，或者路径参数
+        currentPage = request.GET.get("page", 1)  # 这里的1是默认值
+        page = paginator.get_page(currentPage)
+        # 当前页码的要展示的数据
+        print(page.object_list)
+        # 当前页码
+        print(page.number)
+        # 当前页码的父级分页器对象
+        print(page.paginator)
+        # output = []
+        # for item in page.object_list:
+        #     output.append(item)
+        return render(request, "component.html", locals())
