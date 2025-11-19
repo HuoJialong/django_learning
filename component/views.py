@@ -1,7 +1,8 @@
-from django.db.models.expressions import result
+import random
 from django.shortcuts import render
 from django.views import View
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.cache import cache_page
 from django.views.generic import ListView
 
 from . import models
@@ -81,3 +82,12 @@ class StudentView2(ListView):
     # page_kwarg = "page"
     # 自定义变量名，默认变量名为page_obj
     # context_object_name = 'page'
+
+
+"""加上缓存的时候出现错误，错误信息为ModuleNotFoundError: No module named 'distutils'"""
+"""解决方案为在该虚拟环境下pip install setuptools"""
+"""缓存时间增加随机数主要是为了避免缓存被同时删除"""
+@cache_page(timeout=60*60*20 + random.randint(1,9999))
+def index(request):
+    print("done!")
+    return HttpResponse("hello")
