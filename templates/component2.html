@@ -43,7 +43,7 @@
             <th>class</th>
             <th>mobile</th>
         </tr>
-        {% for student in page.object_list  %}
+        {% for student in page_obj.object_list  %}
             <tr>
                 <td>{{student.id}}</td>
                 <td>{{student.name}}</td>
@@ -55,16 +55,16 @@
         {% endfor %}
     </table>
     <div class="paginator">
-        {% if page.has_previous %}
+        {% if page_obj.has_previous %}
         <a href="?page=1">首页</a>
-        <a href="?page={{ page.previous_page_number }}">上一页</a>
-        <a href="?page={{ page.previous_page_number }}">{{ page.previous_page_number }}</a>
+        <a href="?page={{ page_obj.previous_page_number }}">上一页</a>
+        <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
         {% endif %}
-        <a>{{ page.number }}</a>
-        {% if page.has_next %}
-        <a href="?page= {{ page.next_page_number }}">{{ page.next_page_number }}</a>
-        <a href="?page= {{ page.next_page_number }}">下一页</a>
-        <a href="?page={{ page.paginator.num_pages }}">尾页</a>
+        <a>{{ page_obj.number }}</a>
+        {% if page_obj.has_next %}
+        <a href="?page= {{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+        <a href="?page= {{ page_obj.next_page_number }}">下一页</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">尾页</a>
         {% endif %}
     </div>
 </body>

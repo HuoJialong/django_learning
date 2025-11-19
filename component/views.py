@@ -2,6 +2,8 @@ from django.db.models.expressions import result
 from django.shortcuts import render
 from django.views import View
 from django.http import JsonResponse
+from django.views.generic import ListView
+
 from . import models
 from student.models import Student
 from django.core.paginator import Paginator
@@ -64,3 +66,18 @@ class StudentView(View):
         # for item in page.object_list:
         #     output.append(item)
         return render(request, "component.html", locals())
+
+class StudentView2(ListView):
+    # 设置当前视图类支持哪些方法
+    # http_method_names = ["get"]
+    # 设置当前视图类中使用模版文件名
+    template_name = "component2.html"
+    # 设置当前视图类中使用的模型
+    model = Student
+    # 设置分页数据量
+    paginate_by = 6
+
+    #，设置分页的页码，默认是page
+    # page_kwarg = "page"
+    # 自定义变量名，默认变量名为page_obj
+    # context_object_name = 'page'
