@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.http import JsonResponse, HttpResponse
+from django.core.cache import cache
 from django.views.decorators.cache import cache_page
 from django.views.generic import ListView
 
@@ -93,9 +94,28 @@ def index(request):
     print("done!")
     return HttpResponse("hello")
 
+
 """类视图的缓存只会用于get方法"""
 class IndexView(View):
     @method_decorator(cache_page(timeout=60))
     def get(self, request):
         print("类视图执行了")
         return HttpResponse("hello，成功了")
+
+
+"""缓存适用于数据稳定的场景，比如配置信息、文章、新闻、商品信息等"""
+"""缓存不适合实时性要求比较高的场景，比如股市K线、实时直播的新闻、聊天等"""
+"""django提供的缓存对象进行数据缓存【缓存API】"""
+class HomeView(View):
+    def get(self, request):
+        student_list = cache.get("student_list")
+        if student_list is None:
+            print("执行了")
+            student_list = list(Student.objects.values())
+            cache.set("student_list", student_list, timeout=60)
+        return JsonResponse(student_list, safe=False)
+
+    def delete(self, request):
+        # 删除或者更新数据时，先删除缓存，再更新数据
+        cache.delete("student_list")
+        return JsonResponse({})
