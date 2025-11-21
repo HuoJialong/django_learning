@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "orm",
     "modeldemo",
     "component",
+    "asyncdemo",
 ]
 
 MIDDLEWARE = [

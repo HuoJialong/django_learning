@@ -34,4 +34,5 @@ urlpatterns = [
     path('orm/', include('orm.urls')),
     path('modeldemo/', include('modeldemo.urls')),
     path('component/', include('component.urls')),
+    path('asyncdemo/', include('asyncdemo.urls')),
 ]
